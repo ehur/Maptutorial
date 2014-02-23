@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Color Schemes</title>
+</head>
+<body>
+
+<script src="d3.v3.min.js"></script>
+<script src="underscore-min.js"></script>
+
+<style>
+    .base-green {
+        fill: #2d6509;
+    }
+
+    .highlight-green {
+        fill: rgb(0,255,0);
+     }
+
+    .base-blue {
+        fill: #120661;
+    }
+
+    .highlight-blue {
+        fill: rgb(0,0,255);
+    }
+
+    .base-red {
+        fill: #80191c;
+    }
+
+    .highlight-red {
+        fill: rgb(255,0,0);
+    }
+
+    .base-blackish {
+        fill: #1c2035;
+    }
+
+    .highlight-altgreen {
+        fill: rgb(215, 255, 75);
+    }
+
+    .base-brown {
+        fill: #79480c;
+    }
+
+    .highlight-gold {
+        fill: yellow;
+    }
+
+    .zipcode-boundary {
+        fill: none;
+        stroke: #fff;
+        stroke-linejoin: round;
+    }
+
+    text {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 10px;
+        text-anchor: middle;
+    }
+
+</style>
+
+<script>
+    var containerHeight = 100,containerWidth=1200,
+
+    drawCircles = function(container,basecolor,highlightcolor){
+        var containerWidth = container.attr("width"),
+            containerHeight = container.attr("height"),
+            circleList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        baseCircles = container.selectAll("circle")
+                        .data(circleList)
+                        .enter()
+                        .append("circle");
+        baseCircles.attr("cx", function (d) {
+            return (d * containerHeight) + containerHeight / 2;
+        })
+                .attr("cy", containerHeight / 2)
+                .attr("r", 40)
+                .attr("class", basecolor);
+
+        _.each(circleList,function(i){
+            container.append("circle")             //draw over each circle
+                    .attr("cx",function(d){
+                        return (i * containerHeight) + containerHeight/2
+                    })
+                    .attr("cy", containerHeight / 2)
+                    .attr("r",40)
+                    .attr("class",highlightcolor)
+                    .attr("fill-opacity",i/circleList.length) ;
+        });
+    },
+
+
+            circleContainerBrown = d3.select("body").append("svg")
+                    .attr("width", containerWidth)
+                    .attr("height", containerHeight),
+            circleContainerGreen = d3.select("body").append("svg")
+            .attr("width", containerWidth)
+            .attr("height", containerHeight),
+    circleContainerBlue = d3.select("body").append("svg")
+            .attr("width", containerWidth)
+            .attr("height", containerHeight),
+    circleContainerRed = d3.select("body").append("svg")
+            .attr("width", containerWidth)
+            .attr("height", containerHeight),
+    circleContainerAlt = d3.select("body").append("svg")
+            .attr("width", containerWidth)
+            .attr("height", containerHeight);
+
+    drawCircles(circleContainerGreen,"base-green","highlight-green");
+    drawCircles(circleContainerBlue,"base-blue","highlight-blue");
+    drawCircles(circleContainerRed,"base-red","highlight-red");
+    drawCircles(circleContainerAlt,"base-blackish","highlight-altgreen");
+    drawCircles(circleContainerBrown,"base-brown","highlight-gold");
+
+
+
+</script>
+
+</body>
+</html>
